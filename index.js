@@ -63,7 +63,7 @@ class Golem {
 
     switch (command) {
       case 'lunchtime':
-        postMessage('Svacim '+args.join(''), getArgument(0, 'observable'))
+        postMessage('Lunchtime reponse!', getArgument(0, 'observable'))
     }
 
 
