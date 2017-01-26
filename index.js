@@ -23,6 +23,9 @@ class Golem {
   constructor () {
     logger.info('Golem is ready');
 
+    //mention message regex
+    const regex = /^<@([A-Z0-9]+)>:?\s*((\w+\s*)*)/g;
+
     const users$ = Rx.Observable.fromPromise(bot.getUsers());
     const message$ =
       Rx.Observable.combineLatest(
@@ -31,16 +34,18 @@ class Golem {
           .filter(({type}) => type === 'message')
       )
         .filter(([{members}, {text}]) => {
-          const matchs = /^<@([A-Z0-9]+)> \w+/g.exec(text);
-          if (matchs === null) {
+          const matches = new RegExp(regex).exec(text);
+          if (matches === null) {
             return false;
           }
 
-          return members.find(({id, is_bot}) => id === matchs[1] && is_bot)
+          return members.find(({id, is_bot}) => id === matches[1] && is_bot)
         })
         .map(([{members}, {text, channel, user}]) => {
-          const command = text.split(' ').splice(1)[0]; // first word after mention of the bot
-          const args = text.split(' ').splice(2);
+          const task = new RegExp(regex).exec(text)[2].replace(/\s+/, ' '); //trim multiple spaces
+
+          const command = task.split(' ').splice(1)[0]; // first word after mention of the bot is command
+          const args = task.split(' ').splice(2); // second and next are Array<Args>
 
           return ({
             command,
@@ -49,7 +54,6 @@ class Golem {
             user: members.find(({id}) => id === user)
           })
         })
-
         .subscribe(this.messageHandler);
 
   }
