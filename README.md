@@ -1,4 +1,4 @@
-#Slackbot
+#Slacka
 
 *under heavy development*
 
