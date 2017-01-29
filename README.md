@@ -2,4 +2,4 @@
 
 *under heavy development*
 
-`token=[token] node index.js`
+`token=[token] node sample.js`
