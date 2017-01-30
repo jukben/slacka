@@ -10,7 +10,7 @@ const EventEmitter = require('events')
 const logger = new (Winston.Logger)({
   transports: [
     new (Winston.transports.Console)(),
-    new (Winston.transports.File)({filename: 'golem.log'})
+    new (Winston.transports.File)({filename: 'slacka.log'})
   ]
 })
 
