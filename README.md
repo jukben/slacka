@@ -1,5 +1,6 @@
 # Slacka
 [![GitHub stars](https://img.shields.io/github/stars/jukben/slacka.svg)](https://github.com/jukben/slacka/stargazers) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/jukben/slacka/master/LICENSE.md) ![Dependencies](https://david-dm.org/jukben/slacka.svg)
+
 [![Standard - JavaScript Style Guide](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
 
 ## Install 📦
@@ -8,18 +9,22 @@
 ## API
 
 ### ```new Slacka(options)```
-Create new instace of the bot. Options should have to be an object ```{ token, username }```
+Create new instance of the bot. Options should have to be an object ```{ token, username }```
+
 #### ```.on('command', callbackFunction)```
 "Command" is a string (a name for an event) what you want a react to. **Slacka by default emmit '`init`' event after succefull start** Slack RTM communication via Websockets.
-```callbackFunction(sentReply, getArgs, userObject)``` has three parametres
+```callbackFunction(sentReply, getArgs, userObject)``` has three parameters
 - ```sentReply(text: String, params: Object)``` function for sending reply, for params see see https://api.slack.com/methods/chat.postMessage
-- ```getArguments(index: Number, defaultValue: Any)``` getter function for parametr at index `index` with default value `defaultValue`
-- ```userObject``` which is https://api.slack.com/types/user
+- ```getArguments(index: Number, defaultValue: Any)``` getter function for parameter at index `index` with default value `defaultValue`
+- ```userObject``` which is [User type](https://api.slack.com/types/user) retrieved from Slack.
+
 #### ```.postMessage(channel: ChannelID, text: String, params: Object)```
- - same as `setReply` with difference that first argument is channel ID
+ - same as `setReply` with difference that first argument is channel ID.
+ 
 #### ```.slackAPI(endpoint: String, params: Object): Promise``` 
- - see https://api.slack.com/methods
-#### `.groups, .users, .channels`
+ - see [Slack Web API](https://api.slack.com/methods) for more info .
+ 
+#### ```.groups, .users, .channels```
  - these variables are filled after `init` event with proper objects from Slack API
 
 
