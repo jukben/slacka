@@ -14,8 +14,6 @@ const logger = new (Winston.Logger)({
   ]
 })
 
-const channelsStack = []
-
 class Golem extends EventEmitter {
 
   constructor ({token, username} = {}) {
@@ -40,6 +38,14 @@ class Golem extends EventEmitter {
 
   /* Private methods */
 
+  _getArgumentFunction(args){
+    return (index, defaultValue = null) => args[index] ? args[index] : defaultValue
+  }
+
+  _replyFunction (channel) {
+    return (...args) => this.postMessage.apply(this, [channel, ...args])
+  }
+
   _connect () {
     this.slackAPI('rtm.start')
       .then((payload) => {
@@ -48,7 +54,7 @@ class Golem extends EventEmitter {
         Object.assign(this, R.pick(['self', 'users', 'channels', 'groups'], payload))
         this.bot = this.users.find(({id}) => id === this.self.id)
         this._ws = new WebSocket(url)
-        this.init()
+        this._init()
       })
       .catch((e) => logger.error('Connect:', e))
   }
@@ -71,7 +77,8 @@ class Golem extends EventEmitter {
         const commands = task.split(' ')
 
         const command = commands[0] // first word after mention of the bot is command
-        const args = commands.splice(2) // second and next are Array<Args>
+        const args = commands.slice(1) // strip first – all the rest are Array<Args>
+
         return ({
           command,
           args,
@@ -80,8 +87,11 @@ class Golem extends EventEmitter {
         })
       })
       .subscribe(({command, args, channel, user}) => {
-        channelsStack.push(channel)
-        this.emit(command, args, user)
+        this.emit(command,
+          this._replyFunction(channel),
+          this._getArgumentFunction(args),
+          user
+        )
       })
   }
 
@@ -116,20 +126,13 @@ class Golem extends EventEmitter {
   }
 
   /**
-   * Call this method if you don't want react onto a signal without posting message
-   */
-  noreply () {
-    channelsStack.pop()
-  }
-
-  /**
    * Post message into a channel.
    * If channel param is omitted the message will be posted to the channel who was the last in emitting.
+   * @param channel {Number}
    * @param text {String}
    * @param params {Object} (via https://api.slack.com/methods/chat.postMessage)
-   * @param channel {Number}
    */
-  postMessage (text, params, channel = channelsStack.pop()) {
+  postMessage (channel, text, params) {
     const {username} = this
 
     const processedParams = Object.assign({

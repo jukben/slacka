@@ -1,7 +1,7 @@
 {
   "name": "slacka",
   "version": "1.0.0",
-  "description": "Microscopic Slack RTM powered implementation of classic mention bot",
+  "description": "Microscopic Slack RTM powered implementation of a classic mention bot",
   "main": "index.js",
   "scripts": {
     "test": "standard && jest",
