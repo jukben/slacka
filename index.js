@@ -60,7 +60,7 @@ class Golem extends EventEmitter {
   }
 
   _init () {
-    logger.info('Golem is ready')
+    logger.info('Slacka is ready')
     this.emit('init')
     // mention message regex
     const regex = /^<@([A-Z0-9]+)>:?\s*((\w+\s*)*)/g
