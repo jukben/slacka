@@ -24,13 +24,17 @@ Create new instance of the bot. Options should have to be an object ```{ token, 
 #### ```.slackAPI(endpoint: String, params: Object): Promise``` 
  - see [Slack Web API](https://api.slack.com/methods) for more info .
  
-#### ```.groups, .users, .channels```
+#### ```.groups: Object, .users: Object, .channels: Object```
  - these variables are filled after `init` event with proper objects from Slack API
 
 
 ## Example 
 
-_You can try by yourself:_ ```TOKEN=YOURSECRETOKEN node sample.js```
+_You can try by yourself:_ 
+
+Run: ```TOKEN=YOURSECRETOKEN node sample.js```
+
+and then could try to type this into the some channel (where is your bot invited): `@nickOfYourBot: hello`
 
 ```
 const Slacka = require('./index')
@@ -48,7 +52,7 @@ const slacka = new Slacka({
 /**
  * The on event has name of command (in this case "hello")
  *
- * Next there are three argument of callback function:
+ * Next there are three arguments of the callback function:
  *
  * Function sentReply(text: String, params: Object) see https://api.slack.com/methods/chat.postMessage
  * Function getArguments(index: Number, defaultValue: Any)
