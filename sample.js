@@ -20,8 +20,8 @@ const slacka = new Slacka({
  * Object UserObject see https://api.slack.com/types/user
  */
 
-slacka.on('hello', (sentReply, getArg, {real_name}) => {
-  sentReply(`Hi! ${real_name}!`, {
+slacka.on('hello', (sentReply, getArg, {profile: {real_name_normalized}}) => {
+  sentReply(`Hi! ${real_name_normalized}!`, {
     icon_emoji: `:${getArg(0, 'pizza')}:`
   })
 })

@@ -14,7 +14,7 @@ const logger = new (Winston.Logger)({
   ]
 })
 
-class Golem extends EventEmitter {
+class Slacka extends EventEmitter {
 
   constructor ({token, username} = {}) {
     super()
@@ -145,5 +145,4 @@ class Golem extends EventEmitter {
   }
 }
 
-module.exports = Golem
-
+module.exports = Slacka
