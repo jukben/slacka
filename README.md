@@ -36,7 +36,7 @@ Run: ```TOKEN=YOURSECRETOKEN node sample.js```
 
 and then could try to type this into the some channel (where is your bot invited): `@nickOfYourBot: hello`
 
-```
+```javascript
 const Slacka = require('./index')
 
 if (!process.env.token) {
